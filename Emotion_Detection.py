@@ -9,12 +9,14 @@ classifier=load_model('./Models/model_v_47.hdf5')
 class_labels={0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Neutral', 5: 'Sad', 6: 'Surprise'}
 
 cap = cv2.VideoCapture(0)
+
 while True:
     ret,img = cap.read()
     gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray, 1.3, 5)
     allfaces = []
     rects = []
+
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
         roi_gray = gray[y:y+h, x:x+w]
@@ -22,6 +24,7 @@ while True:
         allfaces.append(roi_gray)
         rects.append((x, w, y, h))
     i = 0
+
     for face in allfaces:
         roi = face.astype("float") / 255.0
         roi = img_to_array(roi)
